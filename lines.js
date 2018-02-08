@@ -11,7 +11,15 @@ class Grid {
     constructor(size) {
         this.data = Utils.makeGrid(size);
     }
-
+    handleCellValue(val) {
+        if(val === 0) {
+            return 0
+        } else {
+            return $("<div>").addClass(`ball`).css({
+                'background': val
+            });
+        }
+    }
     displayGrid() {
 		$('.element').remove();
         for (var i = 0; i < this.data.length; i++) {
@@ -19,14 +27,13 @@ class Grid {
             for (var y = 0; y < this.data[i].length; y++) {
                 var element = $("<div>")
                     .addClass("element")
-                    .text(`${this.data[i][y].toString()}`)
                     .attr({
-                        "data-x": i,
-                        "data-y": y
-                    });
+                        "data-x": y,
+                        "data-y": i
+                    }).append(this.handleCellValue(this.data[i][y]));
                 if (y == 0) element.addClass("first");
                 $("#game").append(element);
-                line += this.data[i][y];
+                line += this.data[y][i];
             }
             console.log(line);
         }
@@ -40,7 +47,7 @@ class Grid {
         for (var i = 0; i < this.grid.length; i++) {
             var line = `${i}: `;
             for (var y = 0; y < this.data[i].length; y++) {
-                line += this.data[i][y];
+                line += this.data[y][i];
             }
             console.log(line);
         }
@@ -96,7 +103,8 @@ class Game {
 		this.grid = new Grid(9);
 		for(var i = 0; i < this.startBallCount; i++) {
 			this.placeRandomBall();
-		}
+        }
+        //this.grid.data = hardcodedgrid();
 		this.initEasyStar();
         this.grid.displayGrid();
     }
@@ -105,18 +113,19 @@ class Game {
         this.easystar = new EasyStar.js();
         this.easystar.setGrid(this.grid.data);
         this.easystar.setAcceptableTiles([0]);
+        this.easystar.setIterationsPerCalculation(1000);
     }
 
     placeRandomBall() {
         var randX = Utils.Random.nextInt(0, 8);
 		var randY = Utils.Random.nextInt(0, 8);
-		//this.grid.data[randX][randY] = new Ball(Utils.settings.colours[Utils.Random.nextInt(0, Utils.settings.colours.length - 1)]);
-		this.grid.data[randX][randY] = 1;
+		this.grid.data[randX][randY] = new Ball(Utils.settings.colours[Utils.Random.nextInt(0, Utils.settings.colours.length - 1)]);
+		//this.grid.data[randX][randY] = 1;
 	}
 	
 	handleClickEvent(selX, selY) {
 		if (!this.isSelected) {
-			if(!this.grid.isEmpty(selX, selY))
+			//if(!this.grid.isEmpty(selX, selY))
 				this.selectInitialPoint(selX, selY);
 		} else {
 			if(this.grid.isEmpty(selX, selY)) {
@@ -173,12 +182,13 @@ class Game {
         console.log(
             `${this.selectedX} ${this.selectedY} ${this.targetX} ${this.targetY}`
         );
-
         this.easystar.findPath(this.selectedX, this.selectedY, this.targetX, this.targetY, function(path) {
             console.log(path);
             Utils.showPath(path);
         });
-        this.easystar.calculate();
+        setInterval(() => {
+            this.easystar.calculate();
+        }, 5);
     }
 }
 var game = new Game();
