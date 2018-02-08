@@ -1,16 +1,21 @@
 class Grid {
     constructor(size) {
         this.data = Utils.makeGrid(size);
+        this.ballCount = 0;
     }
-    handleCellValue(val) {
-        if(val === 0) {
-            return 0
+
+    handleCell(x, y) {
+        if(this.data[x][y] === 0) {
+            return null;
         } else {
             return $("<div>").addClass(`ball`).css({
-                'background': val
+                'background': this.data[x][y].colour
+            }).attr({
+                'data-ballId': `${this.data[x][y].id}`
             });
         }
     }
+
     displayGrid() {
 		$('.element').remove();
         for (var i = 0; i < this.data.length; i++) {
@@ -21,7 +26,7 @@ class Grid {
                     .attr({
                         "data-x": y,
                         "data-y": i
-                    }).append(this.handleCellValue(this.data[i][y]));
+                    }).append(this.handleCell(i, y));
                 if (y == 0) element.addClass("first");
                 $("#game").append(element);
                 line += this.data[y][i];
@@ -31,7 +36,7 @@ class Grid {
 	}
 	
 	isEmpty(x,y) {
-		return this.data[x][y] === 0;
+		return this.data[y][x] === 0;
 	}
 
     fancyLog() {
@@ -43,4 +48,11 @@ class Grid {
             console.log(line);
         }
     }
+
+    placeRandomBall() {
+        var randX = Utils.Random.nextInt(0, 8);
+        var randY = Utils.Random.nextInt(0, 8);
+        this.ballCount++;
+		this.data[randX][randY] = new Ball(Utils.settings.colours[Utils.Random.nextInt(0, Utils.settings.colours.length - 1)], this.ballCount);
+	}
 }

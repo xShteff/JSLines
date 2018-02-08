@@ -1,5 +1,6 @@
 class Ball {
-    constructor(colour) {
+    constructor(colour, id) {
+		this.id = id;
         this.colour = colour;
 	}
 	toString() {
