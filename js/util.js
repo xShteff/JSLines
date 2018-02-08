@@ -1,0 +1,29 @@
+var Utils = {
+    Random: {
+        nextInt(min, max) {
+            return Math.floor(Math.random() * max) + min;
+        }
+    },
+    settings: {
+        colours: ["red", "blue", "yellow", "green", "purple", "pink", "turquoise"]
+    },
+    makeGrid: size => {
+        var grid = [];
+        for (var i = 0; i < size; i++) {
+            var row = [];
+            for (var y = 0; y < size; y++) {
+                row.push(0);
+            }
+            grid.push(row);
+        }
+        return grid;
+    },
+    showPath: path => {
+        for (var x = 0; x < path.length; x++) {
+            $(`.element[data-x=${path[x].x}][data-y=${path[x].y}]`).addClass("path");
+        }
+	},
+	clearPath: () => {
+		$('.element').removeClass('path');
+	}
+};
