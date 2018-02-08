@@ -52,7 +52,13 @@ class Grid {
     placeRandomBall() {
         var randX = Utils.Random.nextInt(0, 8);
         var randY = Utils.Random.nextInt(0, 8);
-        this.ballCount++;
-		this.data[randX][randY] = new Ball(Utils.settings.colours[Utils.Random.nextInt(0, Utils.settings.colours.length - 1)], this.ballCount);
+        if(this.data[randX][randY] === 0) {
+            this.ballCount++;
+            this.data[randX][randY] = new Ball(Utils.settings.colours[Utils.Random.nextInt(0, Utils.settings.colours.length - 1)], this.ballCount);
+        } else {
+            console.log("BALL THERE");
+            this.placeRandomBall();
+        }
+       
 	}
 }

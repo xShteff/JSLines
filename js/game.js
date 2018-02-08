@@ -103,11 +103,10 @@ class Game {
             'data-ballId' : ball.id
         }).css({
             'background': ball.colour
-        })
+        });
         var count = 0; //TODO: Find a better way to do this...
         for(var i = 0; i < path.length; i++) {
             setTimeout(function() {
-                console.log(i);
                 $(`.ball[data-ballId="${ball.id}"]`).remove();
                 $(`.element[data-x=${path[count].x}][data-y=${path[count].y}]`).append(ballClone);
                 count++; 
@@ -126,16 +125,11 @@ class Game {
     }
 
     findPath() {
-        console.log(
-            `${this.selectedX} ${this.selectedY} ${this.targetX} ${this.targetY}`
-        );
         var that = this;
         this.easystar.findPath(this.selectedX, this.selectedY, this.targetX, this.targetY, function(path) {
-            console.log(path);
-            
+           
             if(path !== null) {
-                that.moveBall(that.selectedBall, path)
-                
+                that.moveBall(that.selectedBall, path)              
             }
         });
         setInterval(() => {
