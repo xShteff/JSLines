@@ -5,7 +5,7 @@ var Utils = {
         }
     },
     settings: {
-        colours: ["red", "blue", "yellow", "green", "purple", "pink", "turquoise"]
+        colours: ["red", "blue", "yellow", "green", "purple", "pink", "turquoise", "brown"]
     },
     makeGrid: size => {
         var grid = [];
@@ -24,12 +24,12 @@ var Utils = {
         }
     },
     moveBall: (ball, path) => {
-        var ball = $('')
-        for(var i = 0; i < path.length; i++) {
-            $(`.element[data-x=${path[x].x}][data-y=${path[x].y}]`)
+        var ball = $("");
+        for (var i = 0; i < path.length; i++) {
+            $(`.element[data-x=${path[x].x}][data-y=${path[x].y}]`);
         }
     },
-	clearPath: () => {
-		$('.element').removeClass('path');
-	}
+    clearPath: () => {
+        $(".element").removeClass("path");
+    }
 };

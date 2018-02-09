@@ -1,60 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#222">
     <title>Lines Test</title>
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.2.min.js"></script>
-    <script src="js/easystar.js"></script>
-    <style>
-        html,
-        body {
-            padding: 0;
-            margin: 0;
-        }
-
-        .element {
-            width: 50px;
-            height: 50px;
-            background: gray;
-            float: left;
-            transition: 0.2s all;
-        }
-        .element:hover {
-            background: lightgray;
-            transition: 0.2s all;
-        }
-
-        .path {
-            background: red !important;
-        }
-
-        .selected {
-            background: turquoise !important;
-        }
-
-        .first {
-            clear: both;
-        }
-
-        .ball {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            pointer-events: none;
-        }
-    </style>
+    <script src="files/js/easystar.js"></script>
+    <link rel="stylesheet" href="files/style.css">
+    <style id="responsive"></style>
 </head>
 
 <body>
     <div id="game"></div>
 
-    <script src="js/util.js"></script>
-    <script src="js/ball.js"></script>
-    <script src="js/grid.js"></script>
-    <script src="js/game.js"></script>
+    <script src="files/js/util.js"></script>
+    <script src="files/js/ball.js"></script>
+    <script src="files/js/grid.js"></script>
+    <script src="files/js/game.js"></script>
     <script>
         var game = new Game();
         game.init();
