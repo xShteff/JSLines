@@ -48,10 +48,13 @@ class Game {
             if (!this.grid.isEmpty(selX, selY)) {
                 this.selectInitialPoint(selX, selY);
             }
+            
         } else {
             if (this.grid.isEmpty(selX, selY)) {
                 this.selectTargetPoint(selX, selY);
                 this.findPath();
+            } else {
+                this.unselectInitialPoint();
             }
         }
     }
@@ -87,6 +90,14 @@ class Game {
         this.selectedY = y;
         this.selectedBall = this.grid.data[y][x];
         this.highlightSelectedPoint();
+    }
+
+    unselectInitialPoint() {
+        this.isSelected = false;
+        this.selectedX = -1;
+        this.selectedY = -1;
+        this.selectedBall = null;
+        this.unhighlightSelectedPoint();
     }
 
     selectTargetPoint(x, y) {
