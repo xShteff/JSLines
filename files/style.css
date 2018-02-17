@@ -2,6 +2,7 @@ html,
 body {
     padding: 0;
     margin: 0;
+    font-family: sans-serif;
 }
 
 .element {
@@ -22,6 +23,10 @@ body {
     background: red !important;
 }
 
+.scanned{
+    background: #00ff15;
+}
+
 .selected {
     background: rgb(92, 92, 92) !important;
 }
@@ -39,4 +44,8 @@ body {
 #game {
     margin-left: auto;
     margin-right:auto;
+}
+
+#scoreBoard {
+    clear:both;
 }
