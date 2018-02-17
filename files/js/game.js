@@ -150,47 +150,10 @@ class Game {
         this.easystar.calculate();
     }
 
-    increaseScore() {
-        this.score += 100;
-        var that = this;
-        $('#score').text(that.score);
-    }
-
-    scanLines() {
-        //vertical
-        for(var x = 0; x < 9; x++) {
-            for(var y = 0; y < 5; y++) {
-                if(this.isVerticalLine(x, y)) {
-                    console.warn(`LINE FOUND AT: ${x} ${y}`)
-                    this.clearVertical(x, y);
-                    this.increaseScore();
-                }
-            }
-        }
-        /*for(var y = 0; y < 4; y++) {
-            for(var x = 0; x < 9; x++) {
-                console.log(`SCANNING: ${x},${y}`)
-                if(this.isVerticalLine(x, y)) {
-                    console.log(`LINE: ${x} ${y}`)
-                }
-            }
-        }*/
-    }
-    clearVertical(x, y) {
-        for(var i = 0; i < 5; i++) {
-            console.log(this.grid.data[y+i][x]);
-            this.grid.data[y + i][x] = 0;
-            console.log(this.grid.data[y+i][x]);
-        }
-    }
-
     isVerticalLine(x, y) {
-        //console.log(`X: ${x}; Y: ${y}`);
         var result = true;
         for(var i = 0; i < 5; i++) {
-            $(`.element[data-x="${x}"][data-y="${y}"]`).addClass('scanned');
             if(typeof(this.grid.data[y + i][x]) !== "number") {
-                //console.log(`INSIDE LOOP X: ${x}; Y: ${y}`);
                 if(!(this.grid.data[y + i][x].equalColour(this.grid.data[y][x]))) {
                     result = false;
                 }
@@ -202,8 +165,54 @@ class Game {
         return result;
     }
 
-    isHorizontalLine(x, y) {
+    clearVertical(x, y) {
+        for(var i = 0; i < 5; i++) {
+            this.grid.data[y + i][x] = 0;
+        }
+    }
 
+    checkVerticalLines() {
+        for(var x = 0; x < 9; x++) {
+            for(var y = 0; y < 5; y++) {
+                if(this.isVerticalLine(x, y)) {
+                    console.warn(`VERTICAL LINE FOUND AT: ${x} ${y}`)
+                    this.clearVertical(x, y);
+                    this.increaseScore();
+                }
+            }
+        }
+    }
+
+    isHorizontalLine(x, y) {
+        var result = true;
+        for(var i = 0; i < 5; i++) {
+            if(typeof(this.grid.data[y][x + i]) !== "number"){ 
+                if(!(this.grid.data[y][x + i].equalColour(this.grid.data[y][x]))) {
+                    result = false;
+                }
+            } else {
+                result = false;
+            }
+        }
+        return result;
+    }
+
+    clearHorizontal(x, y) {
+        for(var i = 0; i < 5; i++) {
+            this.grid.data[y][x + i] = 0;
+        }
+    }
+
+    checkHorizontalLines() {
+        for(var y = 0; y < 9; y++) {
+            for(var x = 0; x < 5; x++) {
+                if(this.isHorizontalLine(x, y)) {
+                    console.warn(`HORIZONTAL LINE FOUND AT ${x} ${y}`)
+                    this.clearHorizontal(x, y);
+                    this.increaseScore();
+                }
+            }
+        }
     }
 
     isDiagonalLeftLine(x, y) {
@@ -212,5 +221,16 @@ class Game {
 
     isDiagonalRightLine(x, y) {
         
+    }
+
+    increaseScore() {
+        this.score += 100;
+        var that = this;
+        $('#score').text(that.score);
+    }
+
+    scanLines() {
+        this.checkVerticalLines();
+        this.checkHorizontalLines();
     }
 }
