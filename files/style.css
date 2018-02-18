@@ -8,14 +8,15 @@ body {
 .element {
     width: 50px;
     height: 50px;
-    background: rgb(168, 168, 168);
+    background: url('images/background_empty.png');
     float: left;
-    transition: 0.2s all;
+    transition: 0.2s filter;
     padding: 3px;
     border: 1px solid black;
+    filter:brightness(100%);
 }
 .element:hover {
-    background: rgb(145, 145, 145);
+    filter:brightness(70%);
     transition: 0.2s all;
 }
 
@@ -28,7 +29,7 @@ body {
 }
 
 .selected {
-    background: rgb(92, 92, 92) !important;
+    filter:brightness(50%) !important;    
 }
 
 .first {
@@ -40,7 +41,13 @@ body {
     height: 100%;
     border-radius: 50%;
     pointer-events: none;
+    background-size: 100%;
 }
+
+.ball.brown{
+    background: url('images/brown_ball.png');
+}
+
 #game {
     margin-left: auto;
     margin-right:auto;

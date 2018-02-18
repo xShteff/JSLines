@@ -5,7 +5,7 @@ class Ball {
   }
 
   toString() {
-    return `Ball ${this.id}: ${this.colour}`;
+    return `${this.id}: ${this.colour}`;
   }
 
   equalColour(ball) {

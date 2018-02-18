@@ -38,7 +38,6 @@ class Game {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(function() {
             that.grid.makeResponsive();
-            console.log('boop');        
         }, 250);
 
         });
@@ -114,7 +113,8 @@ class Game {
             'class': 'ball',
             'data-ballId': ball.id
         }).css({
-            'background': ball.colour
+            'background': `url("files/images/${ball.colour}_ball.png")`,
+            'background-size': '100%'
         });
         var count = 0; //TODO: Find a better way to do this... 
         for (var i = 0; i < path.length; i++) {
@@ -144,7 +144,7 @@ class Game {
             if (path !== null) {
                 that.moveBall(that.selectedBall, path)
             } else {
-                console.log("No path found.")
+                console.warn("No path found.")
             }
         });
         this.easystar.calculate();
@@ -175,7 +175,6 @@ class Game {
         for(var x = 0; x < 9; x++) {
             for(var y = 0; y < 5; y++) {
                 if(this.isVerticalLine(x, y)) {
-                    console.warn(`VERTICAL LINE FOUND AT: ${x} ${y}`)
                     this.clearVertical(x, y);
                     this.increaseScore();
                 }
@@ -207,7 +206,6 @@ class Game {
         for(var y = 0; y < 9; y++) {
             for(var x = 0; x < 5; x++) {
                 if(this.isHorizontalLine(x, y)) {
-                    console.warn(`HORIZONTAL LINE FOUND AT ${x} ${y}`)
                     this.clearHorizontal(x, y);
                     this.increaseScore();
                 }
@@ -224,9 +222,13 @@ class Game {
     }
 
     increaseScore() {
-        this.score += 100;
         var that = this;
-        $('#score').text(that.score);
+        for(var i = 0; i < 100; i++) {
+            setTimeout(() => {
+                that.score++;
+                $('#score').text(that.score);
+            }, i * 5)
+        }
     }
 
     scanLines() {

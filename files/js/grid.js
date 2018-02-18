@@ -11,9 +11,11 @@ class Grid {
             return null;
         } else {
             return $("<div>").addClass(`ball`).css({
-                'background': this.data[x][y].colour
+				'background': `url("files/images/${this.data[x][y].colour}_ball.png")`,
+				'background-size': '100%'
             }).attr({
-                'data-ballId': `${this.data[x][y].id}`
+				'data-ballId': `${this.data[x][y].id}`,
+				'title': this.data[x][y].colour
             });
         }
     }
@@ -21,7 +23,7 @@ class Grid {
     displayGrid() {
         $('.element').remove();
         for (var i = 0; i < this.data.length; i++) {
-            var line = `${i}: `;
+            //var line = `${i}: `;
             for (var y = 0; y < this.data[i].length; y++) {
                 var element = $("<div>")
                     .addClass("element")
@@ -31,9 +33,9 @@ class Grid {
                     }).append(this.buildCell(i, y));
                 if (y == 0) element.addClass("first");
                 $("#game").append(element);
-                line += this.data[y][i];
+                //line += `${this.data[y][i]}\t`;
             }
-            console.log(line);
+            //console.log(line);
         }
         this.makeResponsive();
     }
@@ -63,7 +65,7 @@ class Grid {
         for (var i = 0; i < this.grid.length; i++) {
             var line = `${i}: `;
             for (var y = 0; y < this.data[i].length; y++) {
-                line += this.data[y][i];
+                line += `| ${this.data[y][i]}`;
             }
             console.log(line);
         }
