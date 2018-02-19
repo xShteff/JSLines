@@ -125,14 +125,16 @@ class Game {
                 if (count === path.length) {
                     that.grid.data[that.targetY][that.targetX] = that.grid.data[that.selectedY][that.selectedX];
                     that.grid.data[that.selectedY][that.selectedX] = 0;
-                    setTimeout(() => {
-                        that.grid.placeRandomBalls(3);
-                        setTimeout(() => {
-                            that.scanLines();                  
-                            that.grid.displayGrid();
-                            that.initClicKEvents();
-                        }, 100)
-                    }, 100)               
+                    setTimeout(() => {                       
+                        if(!that.scanLines()) {
+                            that.grid.placeRandomBalls(3);
+                            setTimeout(() => {
+                                that.scanLines();
+                            }, 100)
+                        }
+                        that.grid.displayGrid();
+                        that.initClicKEvents();
+                    }, 100)
                 }
             }, i * 100);
         }
@@ -172,14 +174,17 @@ class Game {
     }
 
     checkVerticalLines() {
+        var result = false;
         for(var x = 0; x < 9; x++) {
             for(var y = 0; y < 5; y++) {
                 if(this.isVerticalLine(x, y)) {
                     this.clearVertical(x, y);
                     this.increaseScore();
+                    result = true;
                 }
             }
         }
+        return result;
     }
 
     isHorizontalLine(x, y) {
@@ -203,14 +208,17 @@ class Game {
     }
 
     checkHorizontalLines() {
+        var result = false;
         for(var y = 0; y < 9; y++) {
             for(var x = 0; x < 5; x++) {
                 if(this.isHorizontalLine(x, y)) {
                     this.clearHorizontal(x, y);
                     this.increaseScore();
+                    result = true;
                 }
             }
         }
+        return result;
     }
 
     isDiagonalLeftLine(x, y) {
@@ -232,7 +240,16 @@ class Game {
     }
 
     scanLines() {
-        this.checkVerticalLines();
-        this.checkHorizontalLines();
+        /*var result = false;
+        result = this.checkVerticalLines();
+        if(result)
+            return result;
+        result = this.checkHorizontalLines();
+        if(result)
+            return result;
+
+        return result;
+        */
+        return this.checkHorizontalLines() || this.checkVerticalLines();
     }
 }
