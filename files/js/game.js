@@ -223,7 +223,46 @@ class Game {
     
 
     isDiagonalLeftLine(x, y) {
+        var result = true;
+        for(var i = 0; i < 5; i++) {
+            if(typeof(this.grid.data[y + i][x - i]) !== "number") {
+                if(!(this.grid.data[y + i][x - i].equalColour(this.grid.data[y][x]))) {
+                    result = false;
+                }
+            } else {
+                result = false;
+            }
+        }
+        return result;
+    }
 
+    clearDiagonalLeftLine(x, y) {
+        for(var i = 0; i < 5; i++) {
+            this.grid.data[y + i][x - i] = 0;
+        }
+    }
+
+    checkDiagonalLeftLines() {
+        var result = false;
+        for(var x = 8; x > 4; x--) {
+            for(var y = 0; y < 5; y++) {
+                if(this.isDiagonalLeftLine(x, y)) {
+                    this.clearDiagonalLeftLine(x, y);
+                    this.increaseScore();
+                    result = true;
+                }
+            }
+        }
+        /*for(var x = 8; x > 4; x--) {
+            for(var y = 8; y > 4; y--) {
+                if(this.isDiagonalLeftLine(x, y)) {
+                    this.clearDiagonalLeftLine(x, y);
+                    this.increaseScore();
+                    result = true;
+                }
+            }
+        }*/
+        return result;
     }
 
     isDiagonalRightLine(x, y) {
@@ -271,6 +310,6 @@ class Game {
     }
 
     scanLines() {
-        return this.checkHorizontalLines() || this.checkVerticalLines() || this.checkDiagonalRightLines();
+        return this.checkHorizontalLines() || this.checkVerticalLines() || this.checkDiagonalRightLines() || this.checkDiagonalLeftLines();
     }
 }
