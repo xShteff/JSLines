@@ -220,13 +220,44 @@ class Game {
         }
         return result;
     }
+    
 
     isDiagonalLeftLine(x, y) {
 
     }
 
     isDiagonalRightLine(x, y) {
-        
+        var result = true;
+        for(var i = 0; i < 5; i++) {
+            if(typeof(this.grid.data[y + i][x + i]) !== "number") {
+                if(!(this.grid.data[y + i][x + i].equalColour(this.grid.data[y][x]))) {
+                    result = false;
+                }
+            } else {
+                result = false;
+            }
+        }
+        return result;
+    }
+
+    clearDiagonalRightLine(x, y) {
+        for(var i = 0; i < 5; i++) {
+            this.grid.data[y + i][x + i] = 0;
+        }
+    }
+
+    checkDiagonalRightLines() {
+        var result = false;
+        for(var x = 0; x < 5; x++) {
+            for(var y = 0; y < 5; y++) {
+                if(this.isDiagonalRightLine(x, y)) {
+                    this.clearDiagonalRightLine(x, y);
+                    this.increaseScore();
+                    result = true;
+                }
+            }
+        }
+        return result;
     }
 
     increaseScore() {
@@ -240,16 +271,6 @@ class Game {
     }
 
     scanLines() {
-        /*var result = false;
-        result = this.checkVerticalLines();
-        if(result)
-            return result;
-        result = this.checkHorizontalLines();
-        if(result)
-            return result;
-
-        return result;
-        */
-        return this.checkHorizontalLines() || this.checkVerticalLines();
+        return this.checkHorizontalLines() || this.checkVerticalLines() || this.checkDiagonalRightLines();
     }
 }
