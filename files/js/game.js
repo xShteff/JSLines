@@ -7,11 +7,11 @@ class Game {
         this.targetY = -1;
         this.startBallCount = 5;
         this.selectedBall = null;
-        this.score = 0;
     }
 
     init() {
         this.initGridData();
+        this.initSolver();
         this.initClicKEvents();  
         this.initResizeEvent();  
     }
@@ -21,6 +21,10 @@ class Game {
         this.grid.placeRandomBalls(this.startBallCount);
         this.initEasyStar();
         this.grid.displayGrid();
+    }
+
+    initSolver() {
+        this.solver = new Solver(this.grid);
     }
 
     initEasyStar() {
@@ -126,10 +130,10 @@ class Game {
                     that.grid.data[that.targetY][that.targetX] = that.grid.data[that.selectedY][that.selectedX];
                     that.grid.data[that.selectedY][that.selectedX] = 0;
                     setTimeout(() => {                       
-                        if(!that.scanLines()) {
+                        if(!that.solver.scanLines()) {
                             that.grid.placeRandomBalls(3);
                             setTimeout(() => {
-                                that.scanLines();
+                                that.solver.scanLines();
                             }, 100)
                         }
                         that.grid.displayGrid();
@@ -150,166 +154,5 @@ class Game {
             }
         });
         this.easystar.calculate();
-    }
-
-    isVerticalLine(x, y) {
-        var result = true;
-        for(var i = 0; i < 5; i++) {
-            if(typeof(this.grid.data[y + i][x]) !== "number") {
-                if(!(this.grid.data[y + i][x].equalColour(this.grid.data[y][x]))) {
-                    result = false;
-                }
-            } else {
-                result = false;
-            }
-            
-        }
-        return result;
-    }
-
-    clearVertical(x, y) {
-        for(var i = 0; i < 5; i++) {
-            this.grid.data[y + i][x] = 0;
-        }
-    }
-
-    checkVerticalLines() {
-        var result = false;
-        for(var x = 0; x < 9; x++) {
-            for(var y = 0; y < 5; y++) {
-                if(this.isVerticalLine(x, y)) {
-                    this.clearVertical(x, y);
-                    this.increaseScore();
-                    result = true;
-                }
-            }
-        }
-        return result;
-    }
-
-    isHorizontalLine(x, y) {
-        var result = true;
-        for(var i = 0; i < 5; i++) {
-            if(typeof(this.grid.data[y][x + i]) !== "number"){ 
-                if(!(this.grid.data[y][x + i].equalColour(this.grid.data[y][x]))) {
-                    result = false;
-                }
-            } else {
-                result = false;
-            }
-        }
-        return result;
-    }
-
-    clearHorizontal(x, y) {
-        for(var i = 0; i < 5; i++) {
-            this.grid.data[y][x + i] = 0;
-        }
-    }
-
-    checkHorizontalLines() {
-        var result = false;
-        for(var y = 0; y < 9; y++) {
-            for(var x = 0; x < 5; x++) {
-                if(this.isHorizontalLine(x, y)) {
-                    this.clearHorizontal(x, y);
-                    this.increaseScore();
-                    result = true;
-                }
-            }
-        }
-        return result;
-    }
-    
-
-    isDiagonalLeftLine(x, y) {
-        var result = true;
-        for(var i = 0; i < 5; i++) {
-            if(typeof(this.grid.data[y + i][x - i]) !== "number") {
-                if(!(this.grid.data[y + i][x - i].equalColour(this.grid.data[y][x]))) {
-                    result = false;
-                }
-            } else {
-                result = false;
-            }
-        }
-        return result;
-    }
-
-    clearDiagonalLeftLine(x, y) {
-        for(var i = 0; i < 5; i++) {
-            this.grid.data[y + i][x - i] = 0;
-        }
-    }
-
-    checkDiagonalLeftLines() {
-        var result = false;
-        for(var x = 8; x > 4; x--) {
-            for(var y = 0; y < 5; y++) {
-                if(this.isDiagonalLeftLine(x, y)) {
-                    this.clearDiagonalLeftLine(x, y);
-                    this.increaseScore();
-                    result = true;
-                }
-            }
-        }
-        /*for(var x = 8; x > 4; x--) {
-            for(var y = 8; y > 4; y--) {
-                if(this.isDiagonalLeftLine(x, y)) {
-                    this.clearDiagonalLeftLine(x, y);
-                    this.increaseScore();
-                    result = true;
-                }
-            }
-        }*/
-        return result;
-    }
-
-    isDiagonalRightLine(x, y) {
-        var result = true;
-        for(var i = 0; i < 5; i++) {
-            if(typeof(this.grid.data[y + i][x + i]) !== "number") {
-                if(!(this.grid.data[y + i][x + i].equalColour(this.grid.data[y][x]))) {
-                    result = false;
-                }
-            } else {
-                result = false;
-            }
-        }
-        return result;
-    }
-
-    clearDiagonalRightLine(x, y) {
-        for(var i = 0; i < 5; i++) {
-            this.grid.data[y + i][x + i] = 0;
-        }
-    }
-
-    checkDiagonalRightLines() {
-        var result = false;
-        for(var x = 0; x < 5; x++) {
-            for(var y = 0; y < 5; y++) {
-                if(this.isDiagonalRightLine(x, y)) {
-                    this.clearDiagonalRightLine(x, y);
-                    this.increaseScore();
-                    result = true;
-                }
-            }
-        }
-        return result;
-    }
-
-    increaseScore() {
-        var that = this;
-        for(var i = 0; i < 100; i++) {
-            setTimeout(() => {
-                that.score++;
-                $('#score').text(that.score);
-            }, i * 5)
-        }
-    }
-
-    scanLines() {
-        return this.checkHorizontalLines() || this.checkVerticalLines() || this.checkDiagonalRightLines() || this.checkDiagonalLeftLines();
     }
 }

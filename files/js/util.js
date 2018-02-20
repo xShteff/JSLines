@@ -5,7 +5,7 @@ var Utils = {
         }
     },
     settings: {
-        colours: ["red", "blue", "yellow", "green", "purple", "pink", "turquoise", "brown"]
+        colours: ["red", "blue", /*"yellow", "green", "purple", "pink", "turquoise", "brown"*/]
     },
     makeGrid: size => {
         var grid = [];
@@ -31,5 +31,13 @@ var Utils = {
     },
     clearPath: () => {
         $(".element").removeClass("path");
+    },
+    increaseScore: (score) => {
+        for(var i = 0; i < 100; i++) {
+            setTimeout(() => {
+                score++;
+                $('#score').text(score);
+            }, i * 5)
+        }
     }
 };
