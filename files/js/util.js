@@ -5,7 +5,7 @@ var Utils = {
         }
     },
     settings: {
-        colours: ["red", "blue", /*"yellow", "green", "purple", "pink", "turquoise", "brown"*/]
+        colours: ["red", "blue", "yellow", "green", "purple", "pink", "turquoise", "brown"]
     },
     makeGrid: size => {
         var grid = [];
