@@ -27,7 +27,7 @@ class Solver {
 
     checkVerticalLines() {
         var result = false;
-        for(var x = 0; x < 9; x++) {
+        for(var x = 0; x < this.grid.size; x++) {
             for(var y = 0; y < 5; y++) {
                 if(this.isVerticalLine(x, y)) {
                     this.clearVertical(x, y);
@@ -61,7 +61,7 @@ class Solver {
 
     checkHorizontalLines() {
         var result = false;
-        for(var y = 0; y < 9; y++) {
+        for(var y = 0; y < this.grid.size; y++) {
             for(var x = 0; x < 5; x++) {
                 if(this.isHorizontalLine(x, y)) {
                     this.clearHorizontal(x, y);
@@ -96,7 +96,7 @@ class Solver {
 
     checkDiagonalLeftLines() {
         var result = false;
-        for(var x = 8; x > 4; x--) {
+        for(var x = this.grid.size - 1; x > 4; x--) {
             for(var y = 0; y < 5; y++) {
                 if(this.isDiagonalLeftLine(x, y)) {
                     this.clearDiagonalLeftLine(x, y);
