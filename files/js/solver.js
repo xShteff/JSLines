@@ -1,4 +1,4 @@
-class Sameballs {
+class ContinuousColorBalls {
     constructor(start, count) {
         this.start = start; // Start position of continuous same color balls
         this.count = count; // How many same color balls
@@ -10,7 +10,7 @@ class Sameballs {
         this.start = start;
         this.count = 0;
     }
-    copyIfMoreThan(theone) {
+    updateIfGreater(theone) {
         if(this.count < theone.count) {
             this.count = theone.count;
             this.start = theone.start;
@@ -25,26 +25,26 @@ class Solver {
     }
 
     isVerticalLine(x) {
-        var sameballs = new Sameballs(0, 0);
-        var max_sameballs = new Sameballs(0, 0);
+        var curContBalls = new ContinuousColorBalls(0, 0);
+        var maxContBalls = new ContinuousColorBalls(0, 0);
         for(var i = 1; i < this.grid.size; i++) {
             if(typeof(this.grid.data[i][x]) !== "number") {
                 if(((this.grid.data[i][x]).equalColour(this.grid.data[i-1][x]))) {
-                    sameballs.count += 1;
+                    curContBalls.count += 1;
                 } else {
-                    max_sameballs.copyIfMoreThan(sameballs);
-                    sameballs.reset(i);
+                    maxContBalls.updateIfGreater(curContBalls);
+                    curContBalls.reset(i);
                 }
             } else {
-                max_sameballs.copyIfMoreThan(sameballs);
-                sameballs.reset(i);
+                maxContBalls.updateIfGreater(curContBalls);
+                curContBalls.reset(i);
             }
         }
-        max_sameballs.copyIfMoreThan(sameballs);
+        maxContBalls.updateIfGreater(curContBalls);
 
         // The real count is 1 more
-        max_sameballs.count++;
-        return max_sameballs;
+        maxContBalls.count++;
+        return maxContBalls;
     }
 
     clearVertical(x, y, num) {
@@ -68,27 +68,27 @@ class Solver {
     }
 
     isHorizontalLine(y) {
-        var sameballs = new Sameballs(0, 0);
-        var max_sameballs = new Sameballs(0, 0);
+        var curContBalls = new ContinuousColorBalls(0, 0);
+        var maxContBalls = new ContinuousColorBalls(0, 0);
         for(var i = 1; i < this.grid.size; i++) {
             if(typeof(this.grid.data[y][i]) !== "number") {
                 if(((this.grid.data[y][i]).equalColour(this.grid.data[y][i-1]))) {
-                    sameballs.count += 1;
+                    curContBalls.count += 1;
                 } else {
-                    max_sameballs.copyIfMoreThan(sameballs);
-                    sameballs.reset(i);
+                    maxContBalls.updateIfGreater(curContBalls);
+                    curContBalls.reset(i);
                 }
             } else {
-                max_sameballs.copyIfMoreThan(sameballs);
-                sameballs.reset(i);
+                maxContBalls.updateIfGreater(curContBalls);
+                curContBalls.reset(i);
             }
         }
-        max_sameballs.copyIfMoreThan(sameballs);
+        maxContBalls.updateIfGreater(curContBalls);
 
         // The real count is 1 more
-        max_sameballs.count++;
+        maxContBalls.count++;
 
-        return max_sameballs;
+        return maxContBalls;
     }
 
     clearHorizontal(x, y, num) {
