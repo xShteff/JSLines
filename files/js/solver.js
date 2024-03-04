@@ -149,10 +149,9 @@ class Solver {
     }
 
     clearDiagonalLeftLine(diagonLine) {
-        //console.log("x:", diagonLine.x, ", y:", diagonLine.y, ", count:", diagonLine.count);
+        //console.log("clearDiagonalLeftLine", diagonLine);
         for(var i = 0; i < diagonLine.count; i++) {
-            //console.log("x:", diagonLine.x -i, ", y:", diagonLine.y+i, ", count:", diagonLine.count);
-            this.grid.data[diagonLine.x - i][diagonLine.y + i] = 0;
+            this.grid.data[diagonLine.y + i][diagonLine.x - i] = 0;
         }
     }
 
