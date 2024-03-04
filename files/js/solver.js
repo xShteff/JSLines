@@ -182,35 +182,57 @@ class Solver {
         return result;
     }
 
-    isDiagonalRightLine(x, y) {
-        var result = true;
-        for(var i = 0; i < 5; i++) {
+    isDiagonalRightLine(x, y, len) {
+        var curContBalls = new ContinuousColorBalls(x, y, 0);
+        var maxContBalls = new ContinuousColorBalls(x, y, 0);
+
+        for(var i = 0; i < len; i++) {
             if(typeof(this.grid.data[y + i][x + i]) !== "number") {
-                if(!(this.grid.data[y + i][x + i].equalColour(this.grid.data[y][x]))) {
-                    result = false;
+                if(i === 0) {
+                    curContBalls.count = 1;
+                } else {
+                    if((this.grid.data[y + i][x + i].equalColour(this.grid.data[y+i-1][x+i-1]))) {
+                        curContBalls.count += 1;
+                    } else {
+                        maxContBalls.updateIfGreater(curContBalls);
+                        curContBalls.reset(x+i, y+i);
+                        curContBalls.count = 1;
+                    }
                 }
             } else {
-                result = false;
+                maxContBalls.updateIfGreater(curContBalls);
+                curContBalls.reset(x+i, y+i);
             }
         }
-        return result;
+        maxContBalls.updateIfGreater(curContBalls);
+
+        return maxContBalls;
     }
 
-    clearDiagonalRightLine(x, y) {
-        for(var i = 0; i < 5; i++) {
-            this.grid.data[y + i][x + i] = 0;
+    clearDiagonalRightLine(diagonLine) {
+        for(var i = 0; i < diagonLine.count; i++) {
+            this.grid.data[diagonLine.y + i][diagonLine.x + i] = 0;
         }
     }
 
     checkDiagonalRightLines() {
         var result = false;
-        for(var x = 0; x < 5; x++) {
-            for(var y = 0; y < 5; y++) {
-                if(this.isDiagonalRightLine(x, y)) {
-                    this.clearDiagonalRightLine(x, y);
-                    Utils.increaseScore(this.score);
+        for(var i = 0; i < this.grid.size - 4; i++) {
+            var len = this.grid.size - i;
+            var lineDiagRight = this.isDiagonalRightLine(0, i, len);
+            if(lineDiagRight.isfive()) {
+                this.clearDiagonalRightLine(lineDiagRight);
+                Utils.increaseScore(this.score); // TODO: check
+                result = true;
+            }
+            if(i > 0) {
+                lineDiagRight = this.isDiagonalRightLine(i, 0, len);
+                if(lineDiagRight.isfive()) {
+                    this.clearDiagonalRightLine(lineDiagRight);
+                    Utils.increaseScore(this.score); // TODO: check
                     result = true;
                 }
+
             }
         }
         return result;
