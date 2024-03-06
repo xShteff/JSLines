@@ -65,7 +65,8 @@ class Solver {
 
             if(line.isfive()) {
                 this.clearVertical(line);
-                Utils.increaseScore(this.score);
+                Utils.increaseScore(line.count);
+                this.score += line.count;
                 result = true;
             }
         }
@@ -110,7 +111,8 @@ class Solver {
             if(line.isfive()) {
                 console.log(line);
                 this.clearHorizontal(line);
-                Utils.increaseScore(this.score);
+                Utils.increaseScore(line.count);
+                this.score += line.count;
                 result = true;
             }
         }
@@ -164,7 +166,8 @@ class Solver {
             if(line_y0.isfive()) {
                 //console.log("line_y0:", line_y0);
                 this.clearDiagonalLeftLine(line_y0);
-                Utils.increaseScore(this.score); // TODO: check
+                Utils.increaseScore(line_y0.count);
+                this.score += line_y0.count;
                 result = true;
             }
         }
@@ -175,7 +178,8 @@ class Solver {
             if(line_x.isfive()) {
                 //console.log("line_x:",line_x);
                 this.clearDiagonalLeftLine(line_x);
-                Utils.increaseScore(this.score); // TODO: check
+                Utils.increaseScore(line_x.count);
+                this.score += line_x.count;
                 result = true;
             }
         }
@@ -222,14 +226,16 @@ class Solver {
             var lineDiagRight = this.isDiagonalRightLine(0, i, len);
             if(lineDiagRight.isfive()) {
                 this.clearDiagonalRightLine(lineDiagRight);
-                Utils.increaseScore(this.score); // TODO: check
+                Utils.increaseScore(lineDiagRight.count);
+                this.score += lineDiagRight.count;
                 result = true;
             }
             if(i > 0) {
                 lineDiagRight = this.isDiagonalRightLine(i, 0, len);
                 if(lineDiagRight.isfive()) {
                     this.clearDiagonalRightLine(lineDiagRight);
-                    Utils.increaseScore(this.score); // TODO: check
+                    Utils.increaseScore(lineDiagRight.count);
+                    this.score += lineDiagRight.count;
                     result = true;
                 }
 

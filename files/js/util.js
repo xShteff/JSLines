@@ -33,12 +33,9 @@ var Utils = {
     clearPath: () => {
         $(".element").removeClass("path");
     },
-    increaseScore: (score) => {
-        for(var i = 0; i < 100; i++) {
-            setTimeout(() => {
-                score++;
-                $('#score').text(score);
-            }, i * 5)
-        }
+    increaseScore: (num) => {
+        var score = parseInt($('#score').text());
+        score += num;
+        $('#score').text(score);
     }
 };
