@@ -19,20 +19,24 @@ var Utils = {
         }
         return grid;
     },
+    /*
     showPath: path => {
         for (var x = 0; x < path.length; x++) {
             $(`.element[data-x=${path[x].x}][data-y=${path[x].y}]`).addClass("path");
         }
     },
+    */
     moveBall: (ball, path) => {
         var ball = $("");
         for (var i = 0; i < path.length; i++) {
             $(`.element[data-x=${path[x].x}][data-y=${path[x].y}]`);
         }
     },
+    /*
     clearPath: () => {
         $(".element").removeClass("path");
     },
+    */
     increaseScore: (num) => {
         var score = parseInt($('#score').text());
         score += num;
