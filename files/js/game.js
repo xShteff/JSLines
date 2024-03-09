@@ -134,13 +134,13 @@ class Game {
                             that.grid.placeRandomBalls(3);
                             setTimeout(() => {
                                 that.solver.scanLines();
-                            }, 100)
+                            }, 20)
                         }
                         that.grid.displayGrid();
                         that.initClicKEvents();
-                    }, 100)
+                    }, 20)
                 }
-            }, i * 100);
+            }, i * 20);
         }
     }
 

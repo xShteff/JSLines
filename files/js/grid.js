@@ -78,8 +78,8 @@ class Grid {
     }
 
     placeRandomBall() {
-        var randX = Utils.Random.nextInt(0, 8);
-        var randY = Utils.Random.nextInt(0, 8);
+        var randX = Utils.Random.nextInt(0, this.size-1);
+        var randY = Utils.Random.nextInt(0, this.size-1);
         if (this.data[randX][randY] === 0) {
             this.ballCount++;
             this.data[randX][randY] = new Ball(Utils.settings.colours[Utils.Random.nextInt(0, Utils.settings.colours.length)], this.ballCount);

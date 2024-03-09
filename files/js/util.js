@@ -5,7 +5,8 @@ var Utils = {
         }
     },
     settings: {
-        colours: ["red", "blue", "yellow", "green", "purple", "pink", "turquoise", "brown"]
+        colours: ["red", "blue", "yellow", "green", "brown"]
+        //colours: ["red", "blue", "yellow", "green", "purple", "turquoise", "pink", "brown"]
     },
     makeGrid: size => {
         var grid = [];
@@ -18,26 +19,27 @@ var Utils = {
         }
         return grid;
     },
+    /*
     showPath: path => {
         for (var x = 0; x < path.length; x++) {
             $(`.element[data-x=${path[x].x}][data-y=${path[x].y}]`).addClass("path");
         }
     },
+    */
     moveBall: (ball, path) => {
         var ball = $("");
         for (var i = 0; i < path.length; i++) {
             $(`.element[data-x=${path[x].x}][data-y=${path[x].y}]`);
         }
     },
+    /*
     clearPath: () => {
         $(".element").removeClass("path");
     },
-    increaseScore: (score) => {
-        for(var i = 0; i < 100; i++) {
-            setTimeout(() => {
-                score++;
-                $('#score').text(score);
-            }, i * 5)
-        }
+    */
+    increaseScore: (num) => {
+        var score = parseInt($('#score').text());
+        score += num;
+        $('#score').text(score);
     }
 };
